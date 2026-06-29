@@ -104,11 +104,13 @@
       month: "short",
       year: "numeric",
     });
-    const timePart = d.toLocaleTimeString("en-IN", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    }).replace(/\s*(am|pm)$/i, (x) => " " + x.trim().toUpperCase());
+    const timePart = d
+      .toLocaleTimeString("en-IN", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      })
+      .replace(/\s*(am|pm)$/i, (x) => " " + x.trim().toUpperCase());
     return `${datePart}, ${timePart}`;
   }
 
@@ -183,23 +185,19 @@
         },
         "Live Box Office Tracking",
       ),
-      h(
-        "a",
-        { href: "#/boxoffice", onclick: closeNav },
-        "Box Office Updates",
-      ),
-      h(
-        "a",
-        { href: "#/news", onclick: closeNav },
-        "Movie News",
-      ),
-      h(
-        "a",
-        { href: "#/reviews", onclick: closeNav },
-        "Movie Reviews",
-      ),
+      h("a", { href: "#/boxoffice", onclick: closeNav }, "Box Office Updates"),
+      h("a", { href: "#/news", onclick: closeNav }, "Movie News"),
+      h("a", { href: "#/reviews", onclick: closeNav }, "Movie Reviews"),
       h("a", { href: "#/about", onclick: closeNav }, "About"),
       h("a", { href: "#/contact", onclick: closeNav }, "Contact"),
+      typeof location !== "undefined" &&
+        location.hostname.indexOf("admin.") === 0
+        ? h(
+            "a",
+            { href: "/admin/", class: "nav-admin", title: "Open admin panel" },
+            "Admin",
+          )
+        : null,
     );
     return h(
       "header",
@@ -213,7 +211,7 @@
           h(
             "span",
             { class: "dot" },
-            h("img", { src: "assets/logo-mark.png", alt: "CineBOTrends" }),
+            h("img", { src: "assets/logo-mark.PNG", alt: "" }),
           ),
           h("span", { class: "name", html: "Cine<b>BOTrends</b>" }),
         ),
@@ -298,7 +296,7 @@
             { class: "foot-brand" },
             h("div", {
               class: "name",
-              html: '<img class="foot-mark" src="assets/logo-mark.png" alt=""/>Cine<b>BOTrends</b>',
+              html: '<img class="foot-mark" src="assets/logo-mark.PNG" alt=""/>Cine<b>BOTrends</b>',
             }),
             h(
               "p",
