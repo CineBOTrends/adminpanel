@@ -1,0 +1,61 @@
+# Decap CMS config — CineBOTrends admin panel
+# Lives in the adminpanel repo at /admin/config.yml (served at admin.cinebotrends.com/admin/)
+# Posts are committed to the PUBLIC dashboard repo (editorial is public content).
+
+backend:
+  name: github
+  repo: "CineBOTrends/dashboard"        # editorial commits go to the public dashboard repo
+  branch: main                          # change to master if that's your default
+  base_url: "https://cbt-oauth.cinebotrends.workers.dev"   # the OAuth Worker (deploy in step 2)
+  auth_endpoint: "auth"
+
+publish_mode: simple
+
+# Images are URLs (no uploads); this folder is required by Decap but unused.
+media_folder: "content/uploads"
+public_folder: "/content/uploads"
+
+collections:
+  - name: "news"
+    label: "Movie News"
+    folder: "content/news"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{date}} — {{title}}"
+    sortable_fields: ["date", "title"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Image URL", name: "image", widget: "string", required: false }
+      - { label: "Short summary", name: "summary", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "text" }
+
+  - name: "reviews"
+    label: "Movie Reviews"
+    folder: "content/reviews"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{date}} — {{movie}} ({{rating}}/5)"
+    sortable_fields: ["date", "movie", "rating"]
+    fields:
+      - { label: "Movie", name: "movie", widget: "string" }
+      - { label: "Rating (1-5)", name: "rating", widget: "number", value_type: "int", min: 1, max: 5 }
+      - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Poster URL", name: "poster", widget: "string", required: false }
+      - { label: "Short summary", name: "summary", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "text" }
+
+  - name: "boxoffice"
+    label: "Box Office Updates"
+    folder: "content/boxoffice"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{date}} — {{title}}"
+    sortable_fields: ["date", "title"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Movie", name: "movie", widget: "string", required: false }
+      - { label: "Report type", name: "reportType", widget: "select", options: ["Day-1", "All-time collections", "Other"], default: "Day-1" }
+      - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Image URL", name: "image", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "text" }
